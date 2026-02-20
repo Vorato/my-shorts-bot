@@ -16,8 +16,21 @@ reddit = praw.Reddit (
     user_agent = USER_AGENT,
 )
 
+# subreddits to scrape from
 subreddits = ["AskReddit", "CreepyAskReddit", "ask"]
 
+# filter political posts (can be flagged by youtube)
+# if any of these words are found in a subreddit title, that subreddit will be filtered out.
+banned_words = [
+    "epstein", "trump", "clinton", "doj",
+    "supreme court", "ice", "protest", "gaza",
+    "election"
+    ]
+
+# for loop hell
 for subreddit_name in subreddits:
     for submission in reddit.subreddit(subreddit_name).top(time_filter='week', limit = 5):
+        for word in banned_words:
+            if word in submission.title:
+                # do something
         print(submission.title)
