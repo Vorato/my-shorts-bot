@@ -24,13 +24,17 @@ subreddits = ["AskReddit", "CreepyAskReddit", "ask"]
 banned_words = [
     "epstein", "trump", "clinton", "doj",
     "supreme court", "ice", "protest", "gaza",
-    "election"
+    "election", "israel", "qanon"
     ]
+def filter_post(submission):
+    for word in banned_words:
+        if word in submission.title.lower():
+            return False
+    return True
 
-# for loop hell
+print("The following posts will be used:")
 for subreddit_name in subreddits:
+    print(f"\nFrom r/{subreddit_name}:")
     for submission in reddit.subreddit(subreddit_name).top(time_filter='week', limit = 5):
-        for word in banned_words:
-            if word in submission.title:
-                # do something
-        print(submission.title)
+        if filter_post(submission):
+            print(submission.title)
